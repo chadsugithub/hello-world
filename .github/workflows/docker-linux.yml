@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - name: Check out code
       uses: actions/checkout@v2
@@ -27,5 +25,5 @@ jobs:
       with:
         context: ./Client
         file: ./Client/Docker/Dockerfile.linux
-        tags: ${{ github.repository_owner }}/azdoclient:linux-x64
+        tags: ${{ github.repository_owner }}/hello:linux-x64
         push: true
