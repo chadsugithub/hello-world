@@ -1,0 +1,16 @@
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
+WORKDIR /source
+
+# copy csproj and restore as distinct layers
+COPY *.csproj .
+RUN dotnet restore -r linux-x64
+
+# copy and publish app/libraries
+COPY . .
+RUN dotnet publish --no-restore -c release -r linux-x64 -o /app --self-contained false
+
+# final stage/image
+FROM mcr.microsoft.com/dotnet/runtime:5.0
+WORKDIR /app
+COPY --from=build-env /app .
+ENTRYPOINT ["./hello-world"]
